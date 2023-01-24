@@ -23,7 +23,7 @@ describe('/booleans', () => {
           expect(res.body).toEqual({ result: true });
           done();
         });
-    });
+    }); 
   });
 
   describe('POST /truthiness', () => {
