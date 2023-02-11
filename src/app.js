@@ -1,5 +1,4 @@
 const express = require('express');
-const qs = require('qs');
 const {
   sayHello,
   uppercase,
@@ -7,6 +6,7 @@ const {
   firstCharacter,
   firstCharacters,
 } = require('./lib/strings');
+const { add, subtract } = require('./lib/numbers');
 
 const app = express();
 
@@ -22,21 +22,25 @@ app.get('/strings/lower/:string', (req, res) => {
   res.status(200).json({ result: lowercase(req.params.string) });
 });
 
-app.get('/strings/first-characters/:string', (req, res) => {
+app.get('/strings/first-character/:string', (req, res) => {
   res.status(200).json({ result: firstCharacter(req.params.string) });
 });
 
-// app.get('strings/first-characters/:string', (req, res) => {
-//   const { string } = req.params;
-//   const query = qs.parse(req.url.split('?')[1]);
-//   const { length } = query.length;
-//   res.status(200).json({ result: firstCharacters(string, length) });
-// });
+app.get('/strings/first-characters/:string', (req, res) => {
+  console.log(req.query);
+  res.status(200).json({ result: firstCharacters(req.params.string, req.query.length) });
+});
 
-app.get('strings/first-characters/:string', (req, res) => {
-  const n = req.query.length;
-  console.log(req);
-  res.status(200).json({ result: firstCharacters(req.params.string, n) });
+app.get('/numbers/add/:num1/and/:num2', (req, res) => {
+  const a = parseInt(req.params.num1);
+  const b = parseInt(req.params.num2);
+  res.status(200).json({ result: add(a, b) });
+});
+
+app.get('/numbers/add/:num1/and/num2', (req, res) => {
+  const a = parseInt(req.params.num1);
+  const b = parseInt(req.params.num2);
+  res.status(200).json({ result: subtract(a - b) });
 });
 
 module.exports = app;
