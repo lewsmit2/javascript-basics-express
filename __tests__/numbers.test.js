@@ -23,7 +23,7 @@ describe('/numbers', () => {
         });
     });
 
-    xit('adds 10 and -5', done => {
+    it('adds 10 and -5', done => {
       request(app)
         .get('/numbers/add/10/and/-5')
         .then(res => {
@@ -33,7 +33,7 @@ describe('/numbers', () => {
         });
     });
 
-    xit('errors if the parameters are not numbers', done => {
+    it('errors if the parameters are not numbers', done => {
       request(app)
         .get('/numbers/add/fish/and/chips')
         .then(res => {
@@ -45,7 +45,7 @@ describe('/numbers', () => {
   });
 
   describe('GET /subtract/{number}/from/{number}', () => {
-    xit('subtracts 2 from 1', done => {
+    it('subtracts 2 from 1', done => {
       request(app)
         .get('/numbers/subtract/2/from/1')
         .then(res => {
@@ -55,7 +55,7 @@ describe('/numbers', () => {
         });
     });
 
-    xit('subtracts -2 from 1', done => {
+    it('subtracts -2 from 1', done => {
       request(app)
         .get('/numbers/subtract/-2/from/1')
         .then(res => {
@@ -82,6 +82,7 @@ describe('/numbers', () => {
         .post('/numbers/multiply')
         .send({ a: 10, b: 3 })
         .then(res => {
+          console.log('Response received!');
           expect(res.status).toEqual(200);
           expect(res.body).toEqual({ result: 30 });
           done();

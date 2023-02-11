@@ -6,7 +6,7 @@ const {
   firstCharacter,
   firstCharacters,
 } = require('./lib/strings');
-const { add, subtract } = require('./lib/numbers');
+const { add, subtract, multiply } = require('./lib/numbers');
 
 const app = express();
 
@@ -34,13 +34,26 @@ app.get('/strings/first-characters/:string', (req, res) => {
 app.get('/numbers/add/:num1/and/:num2', (req, res) => {
   const a = parseInt(req.params.num1);
   const b = parseInt(req.params.num2);
-  res.status(200).json({ result: add(a, b) });
+  return Number.isNaN(a) || Number.isNaN(b)
+    ? res.status(400).json({ error: 'Parameters must be valid numbers.' })
+    : res.status(200).json({ result: add(a, b) });
 });
 
-app.get('/numbers/add/:num1/and/num2', (req, res) => {
-  const a = parseInt(req.params.num1);
-  const b = parseInt(req.params.num2);
-  res.status(200).json({ result: subtract(a - b) });
+app.get('/numbers/subtract/:num1/from/:num2', (req, res) => {
+  const a = parseInt(req.params.num2);
+  const b = parseInt(req.params.num1);
+
+  res.status(200).json({ result: subtract(a, b) });
 });
+
+// app.get('/numbers/add/:num1/and/:num2', (req, res) => {
+//   const a = parseInt(req.params.num1);
+//   const b = parseInt(req.params.num2);
+//   console.log(a);
+//   console.log(b);
+//   return Number.isNaN(a) || Number.isNaN(b)
+//     ? res.status(400).json({ error: 'Parameters must be valid numbers' })
+//     : res.status(200).json({ result: add(a, b) });
+// });
 
 module.exports = app;
