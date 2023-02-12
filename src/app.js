@@ -6,9 +6,11 @@ const {
   firstCharacter,
   firstCharacters,
 } = require('./lib/strings');
-const { add, subtract, multiply } = require('./lib/numbers');
+const { add, subtract, multiply, divide, remainder } = require('./lib/numbers');
+const { negate, truthiness, isOdd, startsWith } = require('./lib/booleans');
 
 const app = express();
+app.use(express.json());
 
 app.get('/strings/hello/:string', (req, res) => {
   res.status(200).json({ result: sayHello(req.params.string) });
@@ -27,7 +29,6 @@ app.get('/strings/first-character/:string', (req, res) => {
 });
 
 app.get('/strings/first-characters/:string', (req, res) => {
-  console.log(req.query);
   res.status(200).json({ result: firstCharacters(req.params.string, req.query.length) });
 });
 
@@ -46,4 +47,107 @@ app.get('/numbers/subtract/:num1/from/:num2', (req, res) => {
     ? res.status(400).json({ error: 'Parameters must be valid numbers.' })
     : res.status(200).json({ result: subtract(a, b) });
 });
+
+app.post('/numbers/multiply', (req, res) => {
+  let { a } = req.body;
+  let { b } = req.body;
+
+  if (a === undefined || b === undefined) {
+    res.status(400).json({ error: 'Parameters "a" and "b" are required.' });
+  }
+
+  if (typeof a === 'string' || typeof b === 'string') {
+    a = parseInt(a, 10);
+    b = parseInt(b, 10);
+  }
+
+  if (Number.isNaN(a) || Number.isNaN(b)) {
+    res.status(400).json({ error: 'Parameters "a" and "b" must be valid numbers.' });
+  }
+
+  res.status(200).json({ result: multiply(a, b) });
+});
+
+app.post('/numbers/divide', (req, res) => {
+  let { a } = req.body;
+  let { b } = req.body;
+
+  if (a === undefined || b === undefined) {
+    res.status(400).json({ error: 'Parameters "a" and "b" are required.' });
+  }
+
+  if (b === 0 || b === '0') {
+    res.status(400).json({ error: 'Unable to divide by 0.' });
+  }
+
+  if (typeof a === 'string' || typeof b === 'string') {
+    a = parseInt(a, 10);
+    b = parseInt(b, 10);
+  }
+
+  if (Number.isNaN(a) || Number.isNaN(b)) {
+    res.status(400).json({ error: 'Parameters "a" and "b" must be valid numbers.' });
+  }
+
+  res.status(200).json({ result: divide(a, b) });
+});
+
+app.post('/numbers/remainder', (req, res) => {
+  let { a } = req.body;
+  let { b } = req.body;
+
+  if (a === undefined || b === undefined) {
+    res.status(400).json({ error: 'Parameters "a" and "b" are required.' });
+  }
+
+  if (a === 0) {
+    res.status(200).json({ result: remainder(a, b) });
+  }
+
+  if (b === 0) {
+    res.status(400).json({ error: 'Unable to divide by 0.' });
+  }
+
+  if (typeof a === 'string' || typeof b === 'string') {
+    a = parseFloat(a, 10);
+    b = parseFloat(b, 10);
+  }
+  if (Number.isNaN(a) || Number.isNaN(b)) {
+    res.status(400).json({ error: 'Parameters must be valid numbers.' });
+  }
+
+  res.status(200).json({ result: remainder(a, b) });
+});
+
+app.post('/booleans/negate', (req, res) => {
+  const { value } = req.body;
+  res.status(200).json({ result: negate(value) });
+});
+
+app.post('/booleans/truthiness', (req, res) => {
+  const { value } = req.body;
+  res.status(200).json({ result: truthiness(value) });
+});
+
+app.get('/booleans/is-odd/:number', (req, res) => {
+  let { number } = req.params;
+  if (typeof number === 'string') {
+    number = parseFloat(number, 10);
+  }
+  if (Number.isNaN(number)) {
+    res.status(400).json({ error: 'Parameter must be a number.' });
+  }
+  res.status(200).json({ result: isOdd(req.params.number) });
+});
+
+app.get('/booleans/:string/starts-with/:character', (req, res) => {
+  const { string } = req.params;
+  const { character } = req.params;
+
+  if (character.length !== 1) {
+    res.status(400).json({ error: 'Parameter "character" must be a single character.' });
+  }
+  res.status(200).json({ result: startsWith(character, string) });
+});
+
 module.exports = app;
