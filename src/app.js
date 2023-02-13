@@ -40,16 +40,16 @@ app.get('/strings/first-characters/:string', (req, res) => {
 });
 
 app.get('/numbers/add/:num1/and/:num2', (req, res) => {
-  const a = parseInt(req.params.num1);
-  const b = parseInt(req.params.num2);
+  const a = parseInt(req.params.num1, 0);
+  const b = parseInt(req.params.num2, 0);
   return Number.isNaN(a) || Number.isNaN(b)
     ? res.status(400).json({ error: 'Parameters must be valid numbers.' })
     : res.status(200).json({ result: add(a, b) });
 });
 
 app.get('/numbers/subtract/:num1/from/:num2', (req, res) => {
-  const a = parseInt(req.params.num2);
-  const b = parseInt(req.params.num1);
+  const a = parseInt(req.params.num2, 0);
+  const b = parseInt(req.params.num1, 0);
   return Number.isNaN(a) || Number.isNaN(b)
     ? res.status(400).json({ error: 'Parameters must be valid numbers.' })
     : res.status(200).json({ result: subtract(a, b) });
