@@ -127,8 +127,7 @@ app.post('/numbers/remainder', (req, res) => {
 });
 
 app.post('/booleans/negate', (req, res) => {
-  const { value } = req.body;
-  res.status(200).json({ result: negate(value) });
+  res.status(200).json({ result: negate(req.body.value) });
 });
 
 app.post('/booleans/truthiness', (req, res) => {
@@ -164,8 +163,7 @@ app.post('/arrays/element-at-index/:index', (req, res) => {
 });
 
 app.post('/arrays/to-string', (req, res) => {
-  const { array } = req.body;
-  res.status(200).json({ result: arrayToCSVString(array) });
+  res.status(200).json({ result: arrayToCSVString(req.body.array) });
 });
 
 app.post('/arrays/append', (req, res) => {
@@ -178,9 +176,8 @@ app.post('/arrays/starts-with-vowel', (req, res) => {
 
 app.post('/arrays/remove-element', (req, res) => {
   const index = parseInt(req.query.index, 0);
-  console.log(index);
   const { array } = req.body;
-  if (req.query.index) {
+  if (index) {
     res.status(200).json({ result: removeNthElement2(index, array) });
   } else {
     res.status(200).json({ result: removeNthElement2(0, array) });

@@ -1,5 +1,5 @@
 const getNthElement = (index, array) => {
-  if (index < array.length){
+  if (index < array.length) {
     return array[index];
   }
   return array[index % array.length];
@@ -21,11 +21,6 @@ const addToArray2 = (element, array) => {
   const arrayedTwice = [...array];
   arrayedTwice.push(element);
   return arrayedTwice;
-
-  // const contain = [];
-  // contain.push(element);
-  // const newArrayx = array.concat(contain);
-  // return newArrayx;
 };
 
 const removeNthElement = (index, array) => {
@@ -58,21 +53,11 @@ const onlyEven = numbers => {
   return hibby;
 };
 
-// ^^ The above are two examples of returning a function nested in another function.
-//Either with two return statements, or with one, having the nested function
-//assigned to an additional variable.
-
 const removeNthElement2 = (index, array) => {
-  return array.filter((_, indexRem) => {
-    return indexRem !== index;
-  });
-};
+  return array.filter((item, itemIndex) => itemIndex !== index);
+};ß
 
-// const elementsStartingWithAVowel = strings => {
-//   return strings.filter(str => /^[aeiou]/i.test(str));
-// };
-
-const elementsStartingWithAVowel = (strings) => {
+const elementsStartingWithAVowel = strings => {
   const vowels = ['a', 'e', 'i', 'o', 'u'];
 
   return strings.filter(word => {
@@ -95,8 +80,7 @@ const sumNumbers = numbers => {
 };
 
 const sortByLastLetter = strings => {
-  return strings.sort((a, b) => a.charCodeAt(a.length -1)
-  - b.charCodeAt(b.length -1));
+  return strings.sort((a, b) => a.charCodeAt(a.length - 1) - b.charCodeAt(b.length - 1));
 };
 
 module.exports = {
@@ -114,5 +98,5 @@ module.exports = {
   elementsStartingWithAVowel,
   removeSpaces,
   sumNumbers,
-  sortByLastLetter
+  sortByLastLetter,
 };

@@ -82,7 +82,6 @@ describe('/numbers', () => {
         .post('/numbers/multiply')
         .send({ a: 10, b: 3 })
         .then(res => {
-          console.log('Response received!');
           expect(res.status).toEqual(200);
           expect(res.body).toEqual({ result: 30 });
           done();

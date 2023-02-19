@@ -1,10 +1,9 @@
-/* eslint-disable object-shorthand */
 const createPerson = (name, age) => {
   return {
     name: name,
-    // eslint-disable-next-line object-shorthand
+
     age: age
-  };
+    };
 };
 
 const getName = object => {
@@ -16,7 +15,6 @@ const getProperty = (property, object) => {
 };
 
 const hasProperty = (property, object) => {
-  // eslint-disable-next-line no-prototype-builtins
   return object.hasOwnProperty(property);
 };
 
